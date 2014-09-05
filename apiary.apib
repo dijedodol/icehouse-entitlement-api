@@ -151,7 +151,38 @@ fields notes:
 
 - `content_static_file` - maybe null if this feature doesnt has any content file associated with it
 
-# Group App Features
+# Group Available App Features
+
+## App Feature Availability [/v1/entitlement/feature/]
+### List available features [GET]
+Response Model: Array of [FeatureResult](#FeatureResult)
+
++ Request
+
+    + Header
+
+            Authorization: Token token=ExampleApiKey
+            Access-Token: ExampleAccessToken
+            TimeZone: Asia/Jakarta
+            
+
++ Response 200 (application/json)
+
+        [{
+            "uuid": "1",
+            "type": "camera_filter",
+            "name": "sephia"
+        },{
+            "uuid": "2",
+            "type": "voice",
+            "name": "mansur"
+        },{
+            "uuid": "3",
+            "type": "subscription",
+            "name": "subscription"
+        }]
+
+# Group Eligible App Features
 App Features is a feature which can be enabled or disabled by the Server and the client application must obey the server prior to disabling or enabling a feature.
 
 ## App Features Eligibility [/v1/entitlement/feature/eligible]
