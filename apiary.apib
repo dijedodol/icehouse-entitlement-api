@@ -1,0 +1,456 @@
+FORMAT: X-1A
+
+#IceHouse Entitlement API Documentation V1
+*Author: Gde Satrigraha (gde@icehousecorp.com)*  
+IceHouse Entitlement API is a RESTful Web Services exposed by IceHouse to allow IceHouse client applications to manage digital contents in a generic way between various client apps.
+
+# Allowed HTTPs verbs:
+
+- `GET` - Get a resource or list of resources
+- `POST` - To create or update resource
+- `PUT` - To update resource
+- `DELETE` - To delete resource
+
+# Description Of Usual Server Responses
+
+- `200 OK` - the request was successful (some API calls may return 201 instead).
+- `201 Created` - the request was successful and a resource was created.
+- `202 Accepted` - the request was accepted and enqueue for processing later.
+- `204 No Content` - the request was successful but there is no representation to return (i.e. the response is empty).
+- `400 Bad Request` - the request could not be understood or was missing required parameters.
+- `401 Unauthorized` - authentication failed.
+- `403 Forbidden` - access denied.
+- `402 Payment Required` - payment is required.
+- `404 Not Found` - resource was not found.
+- `410 Gone` - the resource has been expired.
+- `422 Unprocessable Entity` - i.e. validation errors.
+- `500 Internal Server Error` - Bad bad bad.
+- `503 Service Unavailable` - service is temporary unavailable (e.g. scheduled Platform Maintenance). Try again later.
+
+# HTTP Headers
+The following custom HTTP Headers must be present when invoking the Entitlement API (also refer to [RFC for custom HTTP Header](http://tools.ietf.org/html/rfc6648) for the naming reason):  
+
+### Authorization
+Client apps unique `ApiKey`.  
+Example:
+
+- Authorization: Token token=ExampleApiKey
+
+### Access-Token
+Client apps instance `AccessToken` as given by the IceBerg Registration Api.  
+Example:
+
+- Access-Token: ExampleAccessToken
+
+### TimeZone
+Device current timezone as listed in [here](http://en.wikipedia.org/wiki/List_of_tz_database_time_zones). GMT+XX, GMT-XX, UTC+XX, UTC-XX is also supported.  
+Example:
+
+- TimeZone: Asia/Jakarta
+- TimeZone: GMT+07
+- TimeZone: UTC-07
+
+# Data Format
+
+## JSON
+Any complex data type MUST be encoded in JSON.  
+C++ struct mixed with Java data type will be used to describe the complex data model. `Optional<String>` means the type is String and nullable (optional).
+
+## Enum
+Enum constant which is used in the request or response data. Enum value must be serialized as a `String`.
+
+## Request Data Model
+Below is C++ structs definition describing the complex JSON data model used in the API request.  
+
+### FeatureCounterUsageParam<a id="FeatureCounterUsageParam"></a>
+
+    struct FeatureCounterUsageParam {
+        Integer consumed_counter_amount;
+    }
+
+### ConfirmPurchaseRequestPaymentRequest<a id="ConfirmPurchaseRequestPaymentRequest"></a>
+
+    struct ConfirmPurchaseRequestParam {
+        String secret;
+    }
+
+## Response Data Model
+Below is C++ structs definition describing the complex JSON data model used in the API request.  
+
+### ExceptionResult<a id="ExceptionResult"></a>  
+This data model is used when an exception is occured on the server and failed when processing the client request.
+Ex: data validation fail, system failure, etc.
+
+    struct ExceptionResult {
+        String message;
+        Optional<ExceptionResult> cause;
+    }
+
+### StaticFileResult<a id="StaticFileResult"></a>  
+
+    struct StaticFileResult {
+        String url;
+        Optional<String> sha1_hash;
+        Optional<Long> url_expired_time;
+    }
+
+fields notes:
+
+- `url` - absolute url string to download the file  
+- `sha1_hash` - lower case hex encoded sha1 hash of the file, use this to check file integrity or checking cached file state, maybe null if no checksum is available
+- `url_expired_time` - epoch timestamp in millisecond, if present, the url will be expired when the timestamp has been reached
+
+### FeatureResult<a id="FeatureResult"></a>
+
+    struct FeatureResult {
+        String uuid;
+        String type;
+        String name;
+    }
+
+### FeatureStatusResult<a id="FeatureStatusResult"></a>
+Represent a feature's eligibility status for the current user's device.
+All fields condition in the model must be satisified to determine the feature's eligibility status.
+
+    struct FeatureStatusResult {
+        Optional<Long> expired_timestamp;
+        Optional<Integer> remaining_counter;
+    }
+
+fields notes:
+
+- `expired_date` - epoch timestamp in millisecond, if null, no time limit is applied on current user's device to use the feature
+- `remaining_counter` - if null, no limit on how many times the user may use the feature on their current device
+
+### EligibleFeatureResult<a id="EligibleFeatureResult"></a>
+
+    struct EligibleFeatureResult {
+        FeatureResult feature;
+        FeatureStatusResult status;
+    }
+
+### FeaturePurchaseRequestResult<a id="FeaturePurchaseRequestResult"></a>
+
+    struct FeaturePurchaseRequestResult {
+        String request_uuid;
+        String payment_gateway_app_uuid;
+    }
+
+fields notes:
+
+- `request_uuid` - requestUuid which is a unique identifier which is used to make payment to IceHouse payment system
+- `payment_gateway_app_uuid` - appUuid which is used to make payment to IceHouse payment system (stored in the HTTP Header as `Application-Uuid`)
+
+### ClaimFeatureResult<a id="ClaimFeatureResult"></a>
+
+    struct ClaimFeatureResult : EligibleFeatureResult {
+        Optional<StaticFileResult> content_static_file;
+    }
+
+fields notes:
+
+- `content_static_file` - maybe null if this feature doesnt has any content file associated with it
+
+# Group App Features
+App Features is a feature which can be enabled or disabled by the Server and the client application must obey the server prior to disabling or enabling a feature.
+
+## App Features Eligibility [/v1/entitlement/feature/eligible]
+### List eligible features [GET]
+Response Model: Array of [EligibleFeatureResult](#EligibleFeatureResult)
+
++ Request
+
+    + Header
+
+            Authorization: Token token=ExampleApiKey
+            Access-Token: ExampleAccessToken
+            TimeZone: Asia/Jakarta
+            
+
++ Response 200 (application/json)
+
+        [{
+            "feature": {
+                "uuid": "1",
+                "type": "camera_filter",
+                "name": "sephia"
+            },
+            "status": {
+                "expired_timestamp": null,
+                "remaining_counter": 100
+            }
+        },{
+            "feature": {
+                "uuid": "2",
+                "type": "voice",
+                "name": "mansur"
+            },
+            "status": {
+                "expired_timestamp": 1409638190000,
+                "remaining_counter": null
+            }
+        }]
+
++ Response 402
+
+## Single App Feature [/v1/entitlement/feature/eligible/{uuid}]
+
++ Parameters
+    + uuid (required, string, `1f2b3c4d5e6f`) ... Feature `uuid` as given by Entitlement Api or hardcoded on the application.
+
+### Get a single feature eligibility status [GET]
+Response Model: [EligibleFeatureResult](#EligibleFeatureResult)
+
++ Request
+
+    + Header
+    
+            Authorization: Token token=ExampleApiKey
+            Access-Token: ExampleAccessToken
+            TimeZone: Asia/Jakarta
+
++ Response 200 (application/json)
+
+        {
+            "feature": {
+                "uuid": "1",
+                "type": "camera_filter",
+                "name": "sephia"
+            },
+            "status": {
+                "expired_timestamp": null,
+                "remaining_counter": 100
+            }
+        }
+        
++ Response 402
+
+### Deduce a single feature counter [PUT]
+Request Model: [FeatureCounterUsageParam](#FeatureCounterUsageParam)  
+Response Model: [EligibleFeatureResult](#EligibleFeatureResult)
+
++ Request
+
+    + Header
+    
+            Authorization: Token token=ExampleApiKey
+            Access-Token: ExampleAccessToken
+            TimeZone: Asia/Jakarta
+            
+    + Body
+    
+            {
+                "consumed_counter_amount": "50"
+            }
+
++ Response 200 (application/json)
+
+        {
+            "expired_date": null,
+            "remaining_counter": 50
+        }
+
+## App Features Content File Claim [/v1/entitlement/feature/claim]
+
+### Claim All Eligible App Features Content File [GET]
+Response Model: Array of [ClaimFeatureResult](#ClaimFeatureResult)
+
++ Request
+
+    + Header
+    
+            Authorization: Token token=ExampleApiKey
+            Access-Token: ExampleAccessToken
+            TimeZone: Asia/Jakarta
+
++ Response 200 (application/json)
+
+        [{
+            "feature": {
+                "uuid": "1",
+                "type": "camera_filter",
+                "name": "sephia"
+            },
+            "status": {
+                "expired_timestamp": null,
+                "remaining_counter": 100
+            },
+            "content_static_file": {
+                "url": "http://birdgei.files.wordpress.com/2012/02/100.gif",
+                "sha1_hash": "23eec2e95c9a4198010ba80546b58a869224432e",
+                "url_expired_time": null
+            }
+        },{
+            "feature": {
+                "uuid": "2",
+                "type": "voice",
+                "name": "mansur"
+            },
+            "status": {
+                "expired_timestamp": 1409638190000,
+                "remaining_counter": null
+            },
+            "content_static_file": {
+                "url": "http://birdgei.files.wordpress.com/2012/02/100.gif",
+                "sha1_hash": "23eec2e95c9a4198010ba80546b58a869224432e",
+                "url_expired_time": null
+            }
+        }]
+
+## Single App Features Content File Claim [/v1/entitlement/feature/claim/{uuid}]
+
++ Parameters
+    + uuid (required, string, `1f2b3c4d5e6f`) ... Feature `uuid` as given by Entitlement Api or hardcoded on the application.
+
+### Claim an Eligible App Feature Content File [GET]
+Response Model: [ClaimFeatureResult](#ClaimFeatureResult)
+
++ Request
+
+    + Header
+    
+            Authorization: Token token=ExampleApiKey
+            Access-Token: ExampleAccessToken
+            TimeZone: Asia/Jakarta
+
++ Response 200 (application/json)
+
+        {
+            "feature": {
+                "uuid": "1",
+                "type": "camera_filter",
+                "name": "sephia"
+            },
+            "status": {
+                "expired_timestamp": null,
+                "remaining_counter": 100
+            },
+            "content_static_file": {
+                "url": "http://birdgei.files.wordpress.com/2012/02/100.gif",
+                "sha1_hash": "23eec2e95c9a4198010ba80546b58a869224432e",
+                "url_expired_time": null
+            }
+        }
+
++ Response 402
+
+# Group Feature Purchase
+
+## Single Feature Purchase [/v1/entitlement/purchase/feature/{uuid}]
+
++ Parameters
+    + uuid (required, string, `1f2b3c4d5e6f`) ... Feature `uuid` as given by Entitlement Api or hardcoded on the application.
+
+### Request to purchase a single Feature [POST]
+Response Model: [FeaturePurchaseRequestResult](#FeaturePurchaseRequestResult)  
+
++ Request
+
+    + Header
+    
+            Authorization: Token token=ExampleApiKey
+            Access-Token: ExampleAccessToken
+            TimeZone: Asia/Jakarta
+
++ Response 201 (application/json)
+
+        {
+            "request_uuid": "123456789",
+            "payment_gateway_app_uuid": "987654321"
+        }
+
+## Multiple Features Purchase [/v1/entitlement/purchase/feature]
+
+### Request to purchase multiple features [POST]
+Request Model: Array of Feature's UUID  
+Response Model: [FeaturePurchaseRequestResult](#FeaturePurchaseRequestResult)  
+
++ Request
+
+    + Header
+    
+            Authorization: Token token=ExampleApiKey
+            Access-Token: ExampleAccessToken
+            TimeZone: Asia/Jakarta
+
+    + Body
+
+            ["1","2","3"]
+
++ Response 201 (application/json)
+
+        {
+            "request_uuid": "123456789",
+            "payment_gateway_app_uuid": "987654321"
+        }
+
+## Feature Purchase Request [/v1/entitlement/purchase/status/{request_uuid}]
+
++ Parameters
+    + request_uuid (required, string, `1f2b3c4d5e6f`) ... `request_uuid` as given by Entitlement Api when making a purchase request.
+
+### Confirm a purchase request [PUT]
+Request Model: [ConfirmPurchaseRequestParam](#ConfirmPurchaseRequestParam)
+Response Model: Array of [ClaimFeatureResult](#ClaimFeatureResult)
+
++ Request (application/json)
+
+    + Header
+    
+            Authorization: Token token=ExampleApiKey
+            Access-Token: ExampleAccessToken
+            TimeZone: Asia/Jakarta
+
+    + Body
+    
+            {
+                "secret": "example success secret"
+            }
+
++ Response 200 (application/json)
+
+        [{
+            "feature": {
+                "uuid": "1",
+                "type": "camera_filter",
+                "name": "sephia"
+            },
+            "status": {
+                "expired_timestamp": null,
+                "remaining_counter": 100
+            },
+            "content_static_file": {
+                "url": "http://birdgei.files.wordpress.com/2012/02/100.gif",
+                "sha1_hash": "23eec2e95c9a4198010ba80546b58a869224432e",
+                "url_expired_time": null
+            }
+        },{
+            "feature": {
+                "uuid": "2",
+                "type": "voice",
+                "name": "mansur"
+            },
+            "status": {
+                "expired_timestamp": 1409638190000,
+                "remaining_counter": null
+            },
+            "content_static_file": {
+                "url": "http://birdgei.files.wordpress.com/2012/02/100.gif",
+                "sha1_hash": "23eec2e95c9a4198010ba80546b58a869224432e",
+                "url_expired_time": null
+            }
+        }]
+
+### Query for a purchase request status [GET]
+
++ Request
+
+    + Header
+    
+            Authorization: Token token=ExampleApiKey
+            Access-Token: ExampleAccessToken
+            TimeZone: Asia/Jakarta
+
++ Response 200
+
++ Response 402
