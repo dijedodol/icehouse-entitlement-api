@@ -83,6 +83,7 @@ Ex: data validation fail, system failure, etc.
 
     struct ExceptionResult {
         String message;
+        String clazz;
         Optional<ExceptionResult> cause;
     }
 
