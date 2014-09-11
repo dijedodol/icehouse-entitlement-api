@@ -109,6 +109,34 @@ fields notes:
         String name;
     }
 
+### CurrencyPriceResult<a id="CurrencyPriceResult"></a>
+
+    struct CurrencyPriceResult {
+        String code;
+        String name;
+        String symbol;
+        String price;
+    }
+
+fields notes:
+
+- `code` - currency code
+- `price` - this is a number encoded as a string in US format to retain the accuracy.
+
+### FeatureSubscriptionResult<a id="FeatureSubscriptionResult"></a>
+
+    struct FeatureSubscriptionResult {
+        String uuid;
+        String name;
+        CurrencyPriceResult[] currency_prices;
+    }
+
+### AvailableFeatureResult<a id="AvailableFeatureResult"></a>
+
+    struct AvailableFeatureResult : FeatureResult {
+        FeatureSubscriptionResult[] subscriptions;
+    }
+
 ### FeatureStatusResult<a id="FeatureStatusResult"></a>
 Represent a feature's eligibility status for the current user's device.
 All fields condition in the model must be satisified to determine the feature's eligibility status.
@@ -116,12 +144,16 @@ All fields condition in the model must be satisified to determine the feature's 
     struct FeatureStatusResult {
         Optional<Long> expired_timestamp;
         Optional<Integer> remaining_counter;
+        Optional<Long> grace_expired_timestamp;
+        Optional<Integer> grace_remaining_counter;
     }
 
 fields notes:
 
 - `expired_date` - epoch timestamp in millisecond, if null, no time limit is applied on current user's device to use the feature
 - `remaining_counter` - if null, no limit on how many times the user may use the feature on their current device
+- `grace_expired_timestamp` - epoch timestamp in millisecond, ignore if `expired_date` is null. This field tells the user after the `expired_timestamp` has been reached, the may use the feature until the `grace_expired_timestamp` has been reached.
+- `grace_remaining_counter` - ignore if `remaining_counter` is null. This field tells the user when the `remaining_counter` has been depleted, the may still use the feature up until the `grace_remaining_counter` has been depleted.
 
 ### EligibleFeatureResult<a id="EligibleFeatureResult"></a>
 
@@ -156,7 +188,7 @@ fields notes:
 
 ## App Feature Availability [/v1/entitlement/feature/]
 ### List available features [GET]
-Response Model: Array of [FeatureResult](#FeatureResult)
+Response Model: Array of [AvailableFeatureResult](#AvailableFeatureResult)
 
 + Request
 
@@ -171,15 +203,64 @@ Response Model: Array of [FeatureResult](#FeatureResult)
         [{
             "uuid": "1",
             "type": "camera_filter",
-            "name": "sephia"
+            "name": "sephia",
+            "subscriptions": [{
+                "uuid": "212",
+                "name": "30 days subscription",
+                "currency_prices": [{
+                    "code": "IDR",
+                    "name": "Indonesian Rupiah",
+                    "symbol": "Rp. ",
+                    "price": "5000"
+                },{
+                    "code": "USD",
+                    "name": "US Dollar",
+                    "symbol": "$",
+                    "price": "0.5"
+                }]
+            },{
+                "uuid": "213",
+                "name": "365 days subscription",
+                "currency_prices": [{
+                    "code": "IDR",
+                    "name": "Indonesian Rupiah",
+                    "symbol": "Rp. ",
+                    "price": "50000"
+                },{
+                    "code": "USD",
+                    "name": "US Dollar",
+                    "symbol": "$",
+                    "price": "5"
+                }]
+            }]
         },{
             "uuid": "2",
             "type": "voice",
-            "name": "mansur"
+            "name": "mansur",
+            "subscriptions": [{
+                "uuid": "496",
+                "name": "100 days subscription",
+                "currency_prices": [{
+                    "code": "IDR",
+                    "name": "Indonesian Rupiah",
+                    "symbol": "Rp. ",
+                    "price": "2500"
+                }]
+            }]
         },{
             "uuid": "3",
             "type": "subscription",
-            "name": "subscription"
+            "name": "subscription",
+            "subscriptions": [{
+                "uuid": "13",
+                "name": "1000x photo",
+                "currency_prices": [{
+                    "code": "IDR",
+                    "name": "Indonesian Rupiah",
+                    "symbol": "Rp. ",
+                    "price": "2500"
+                }]
+            }]
         }]
 
 # Group Eligible App Features
@@ -209,16 +290,6 @@ Response Model: Array of [EligibleFeatureResult](#EligibleFeatureResult)
             "status": {
                 "expired_timestamp": null,
                 "remaining_counter": 100
-            }
-        },{
-            "feature": {
-                "uuid": "2",
-                "type": "voice",
-                "name": "mansur"
-            },
-            "status": {
-                "expired_timestamp": 1409638190000,
-                "remaining_counter": null
             }
         },{
             "feature": {
@@ -380,7 +451,7 @@ Response Model: [ClaimFeatureResult](#ClaimFeatureResult)
 ## Single Feature Purchase [/v1/entitlement/purchase/feature/{uuid}]
 
 + Parameters
-    + uuid (required, string, `1f2b3c4d5e6f`) ... Feature `uuid` as given by Entitlement Api or hardcoded on the application.
+    + uuid (required, string, `213`) ... FeatureSubscription `uuid` as given by the Available Features Api.
 
 ### Request to purchase a single Feature [POST]
 Response Model: [FeaturePurchaseRequestResult](#FeaturePurchaseRequestResult)  
@@ -416,7 +487,7 @@ Response Model: [FeaturePurchaseRequestResult](#FeaturePurchaseRequestResult)
 
     + Body
 
-            ["1","2","3"]
+            ["213","496","13"]
 
 + Response 201 (application/json)
 
