@@ -289,7 +289,9 @@ Response Model: Array of [EligibleFeatureResult](#EligibleFeatureResult)
             },
             "status": {
                 "expired_timestamp": null,
-                "remaining_counter": 100
+                "remaining_counter": 100,
+                "grace_expired_timestamp": null,
+                "grace_remaining_counter": null
             }
         },{
             "feature": {
@@ -299,7 +301,9 @@ Response Model: Array of [EligibleFeatureResult](#EligibleFeatureResult)
             },
             "status": {
                 "expired_timestamp": 1409638190000,
-                "remaining_counter": null
+                "remaining_counter": null,
+                "grace_expired_timestamp": null,
+                "grace_remaining_counter": null
             }
         }]
 
@@ -331,7 +335,9 @@ Response Model: [EligibleFeatureResult](#EligibleFeatureResult)
             },
             "status": {
                 "expired_timestamp": null,
-                "remaining_counter": 100
+                "remaining_counter": 100,
+                "grace_expired_timestamp": null,
+                "grace_remaining_counter": null
             }
         }
         
@@ -339,7 +345,7 @@ Response Model: [EligibleFeatureResult](#EligibleFeatureResult)
 
 ### Deduce a single feature counter [PUT]
 Request Model: [FeatureCounterUsageParam](#FeatureCounterUsageParam)  
-Response Model: [EligibleFeatureResult](#EligibleFeatureResult)
+Response Model: [FeatureStatusResult](#FeatureStatusResult)
 
 + Request
 
@@ -359,7 +365,9 @@ Response Model: [EligibleFeatureResult](#EligibleFeatureResult)
 
         {
             "expired_date": null,
-            "remaining_counter": 50
+            "remaining_counter": 50,
+            "grace_expired_timestamp": null,
+            "grace_remaining_counter": null
         }
 
 ## App Features Content File Claim [/v1/entitlement/feature/claim]
@@ -385,7 +393,9 @@ Response Model: Array of [ClaimFeatureResult](#ClaimFeatureResult)
             },
             "status": {
                 "expired_timestamp": null,
-                "remaining_counter": 100
+                "remaining_counter": 100,
+                "grace_expired_timestamp": null,
+                "grace_remaining_counter": null
             },
             "content_static_file": {
                 "url": "http://birdgei.files.wordpress.com/2012/02/100.gif",
@@ -400,7 +410,9 @@ Response Model: Array of [ClaimFeatureResult](#ClaimFeatureResult)
             },
             "status": {
                 "expired_timestamp": 1409638190000,
-                "remaining_counter": null
+                "remaining_counter": null,
+                "grace_expired_timestamp": null,
+                "grace_remaining_counter": null
             },
             "content_static_file": {
                 "url": "http://birdgei.files.wordpress.com/2012/02/100.gif",
@@ -435,7 +447,9 @@ Response Model: [ClaimFeatureResult](#ClaimFeatureResult)
             },
             "status": {
                 "expired_timestamp": null,
-                "remaining_counter": 100
+                "remaining_counter": 100,
+                "grace_expired_timestamp": null,
+                "grace_remaining_counter": null
             },
             "content_static_file": {
                 "url": "http://birdgei.files.wordpress.com/2012/02/100.gif",
@@ -529,7 +543,9 @@ Response Model: Array of [ClaimFeatureResult](#ClaimFeatureResult)
             },
             "status": {
                 "expired_timestamp": null,
-                "remaining_counter": 100
+                "remaining_counter": 100,
+                "grace_expired_timestamp": null,
+                "grace_remaining_counter": null
             },
             "content_static_file": {
                 "url": "http://birdgei.files.wordpress.com/2012/02/100.gif",
@@ -544,7 +560,9 @@ Response Model: Array of [ClaimFeatureResult](#ClaimFeatureResult)
             },
             "status": {
                 "expired_timestamp": 1409638190000,
-                "remaining_counter": null
+                "remaining_counter": null,
+                "grace_expired_timestamp": null,
+                "grace_remaining_counter": null
             },
             "content_static_file": {
                 "url": "http://birdgei.files.wordpress.com/2012/02/100.gif",
