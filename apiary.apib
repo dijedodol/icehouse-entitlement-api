@@ -19,8 +19,8 @@ IceHouse Entitlement API is a RESTful Web Services exposed by IceHouse to allow 
 - `204 No Content` - the request was successful but there is no representation to return (i.e. the response is empty).
 - `400 Bad Request` - the request could not be understood or was missing required parameters.
 - `401 Unauthorized` - authentication failed.
-- `403 Forbidden` - access denied.
 - `402 Payment Required` - payment is required.
+- `403 Forbidden` - access denied.
 - `404 Not Found` - resource was not found.
 - `410 Gone` - the resource has been expired.
 - `422 Unprocessable Entity` - i.e. validation errors.
@@ -268,7 +268,8 @@ App Features is a feature which can be enabled or disabled by the Server and the
 
 ## App Features Eligibility [/v1/entitlement/feature/eligible]
 ### List eligible features [GET]
-Response Model: Array of [EligibleFeatureResult](#EligibleFeatureResult)
+Response Model `200`: Array of [EligibleFeatureResult](#EligibleFeatureResult)
+Response Model `429`: [ExceptionResult](#ExceptionResult)
 
 + Request
 
@@ -307,7 +308,13 @@ Response Model: Array of [EligibleFeatureResult](#EligibleFeatureResult)
             }
         }]
 
-+ Response 402
++ Response 429
+
+        {
+            "message": "Max Device: 3",
+            "clazz": "com.icehouse.bla.bla.Bla",
+            "cause": null
+        }
 
 ## Single App Feature [/v1/entitlement/feature/eligible/{uuid}]
 
@@ -315,7 +322,8 @@ Response Model: Array of [EligibleFeatureResult](#EligibleFeatureResult)
     + uuid (required, string, `1f2b3c4d5e6f`) ... Feature `uuid` as given by Entitlement Api or hardcoded on the application.
 
 ### Get a single feature eligibility status [GET]
-Response Model: [EligibleFeatureResult](#EligibleFeatureResult)
+Response Model `200`: [EligibleFeatureResult](#EligibleFeatureResult)
+Response Model `429`: [ExceptionResult](#ExceptionResult)
 
 + Request
 
@@ -340,8 +348,14 @@ Response Model: [EligibleFeatureResult](#EligibleFeatureResult)
                 "grace_remaining_counter": null
             }
         }
-        
-+ Response 402
+
++ Response 429
+
+        {
+            "message": "Max Device: 3",
+            "clazz": "com.icehouse.bla.bla.Bla",
+            "cause": null
+        }
 
 ### Deduce a single feature counter [PUT]
 Request Model: [FeatureCounterUsageParam](#FeatureCounterUsageParam)  
