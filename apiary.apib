@@ -146,6 +146,8 @@ All fields condition in the model must be satisified to determine the feature's 
         Optional<Integer> remaining_counter;
         Optional<Long> grace_expired_timestamp;
         Optional<Integer> grace_remaining_counter;
+        Optional<Long> expired_reminder_at;
+        Optional<Integer> counter_reminder_at;
         Boolean trial;
     }
 
@@ -294,6 +296,8 @@ Response Model `429`: [ExceptionResult](#ExceptionResult)
                 "remaining_counter": 100,
                 "grace_expired_timestamp": null,
                 "grace_remaining_counter": null,
+                "expired_reminder_at": null,
+                "counter_reminder_at": 15,
                 "trial": true
             }
         },{
@@ -307,6 +311,8 @@ Response Model `429`: [ExceptionResult](#ExceptionResult)
                 "remaining_counter": null,
                 "grace_expired_timestamp": null,
                 "grace_remaining_counter": null,
+                "expired_reminder_at": 1409638090000,
+                "counter_reminder_at": null,
                 "trial": false
             }
         }]
@@ -349,6 +355,8 @@ Response Model `429`: [ExceptionResult](#ExceptionResult)
                 "remaining_counter": 100,
                 "grace_expired_timestamp": null,
                 "grace_remaining_counter": null,
+                "expired_reminder_at": null,
+                "counter_reminder_at": 15,
                 "trial": true
             }
         }
@@ -385,7 +393,9 @@ Response Model: [FeatureStatusResult](#FeatureStatusResult)
             "expired_date": null,
             "remaining_counter": 50,
             "grace_expired_timestamp": null,
-            "grace_remaining_counter": null,,
+            "grace_remaining_counter": null,
+            "expired_reminder_at": null,
+            "counter_reminder_at": 15,
             "trial": true
         }
 
@@ -414,8 +424,9 @@ Response Model: Array of [ClaimFeatureResult](#ClaimFeatureResult)
                 "expired_timestamp": null,
                 "remaining_counter": 100,
                 "grace_expired_timestamp": null,
-                "grace_remaining_coun    null,,
-                ,
+                "grace_remaining_counter": null,
+                "expired_reminder_at": null,
+                "counter_reminder_at": 15,
                 "trial": true
             },
             "content_static_file": {
@@ -432,8 +443,10 @@ Response Model: Array of [ClaimFeatureResult](#ClaimFeatureResult)
             "status": {
                 "expired_timestamp": 1409638190000,
                 "remaining_counter": null,
-                "grace_expired_timestamp": null,
+                "grace_expired_timestamp": 1409638090000,
                 "grace_remaining_counter": null,
+                "expired_reminder_at": null,
+                "counter_reminder_at": null,
                 "trial": true
             },
             "content_static_file": {
@@ -472,6 +485,8 @@ Response Model: [ClaimFeatureResult](#ClaimFeatureResult)
                 "remaining_counter": 100,
                 "grace_expired_timestamp": null,
                 "grace_remaining_counter": null,
+                "expired_reminder_at": null,
+                "counter_reminder_at": 15,
                 "trial": true
             },
             "content_static_file": {
@@ -569,6 +584,8 @@ Response Model: Array of [ClaimFeatureResult](#ClaimFeatureResult)
                 "remaining_counter": 100,
                 "grace_expired_timestamp": null,
                 "grace_remaining_counter": null,
+                "expired_reminder_at": null,
+                "counter_reminder_at": 15,
                 "trial": false
             },
             "content_static_file": {
@@ -587,6 +604,8 @@ Response Model: Array of [ClaimFeatureResult](#ClaimFeatureResult)
                 "remaining_counter": null,
                 "grace_expired_timestamp": null,
                 "grace_remaining_counter": null,
+                "expired_reminder_at": 1409638090000,
+                "counter_reminder_at": null,
                 "trial": false
             },
             "content_static_file": {
