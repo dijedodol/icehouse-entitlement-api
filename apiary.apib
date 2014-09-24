@@ -628,3 +628,25 @@ Response Model: Array of [ClaimFeatureResult](#ClaimFeatureResult)
 + Response 200
 
 + Response 402
+
+#Group Entitlement CMS
+
+## Change trial period and unit [/v1/entitlement/cms/change_trial_period/{feature_id}]
+
+
+### Request to update feature trial period and unit [PUT]
+
++ Request (application/json)
+    + Header
+    
+            Authorization: Token token=ExampleApiKey
+            Access-Token: ExampleAccessToken
+            TimeZone: Asia/Jakarta
+    
+    + Body
+    
+            {
+                "trial_duration": 500000,
+                "total_trial_unit" : 12
+            }
++ Response 200 (application/json)
