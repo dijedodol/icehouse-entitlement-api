@@ -142,6 +142,7 @@ Represent a feature's eligibility status for the current user's device.
 All fields condition in the model must be satisified to determine the feature's eligibility status.
 
     struct FeatureStatusResult {
+        String current_subscription_name;
         Optional<Long> expired_timestamp;
         Optional<Integer> remaining_counter;
         Optional<Long> grace_expired_timestamp;
@@ -292,6 +293,7 @@ Response Model `429`: [ExceptionResult](#ExceptionResult)
                 "name": "sephia"
             },
             "status": {
+                "current_subscription_name": "100x",
                 "expired_timestamp": null,
                 "remaining_counter": 100,
                 "grace_expired_timestamp": null,
@@ -307,6 +309,7 @@ Response Model `429`: [ExceptionResult](#ExceptionResult)
                 "name": "subscription"
             },
             "status": {
+                "current_subscription_name": "5 Century subscription",
                 "expired_timestamp": 1409638190000,
                 "remaining_counter": null,
                 "grace_expired_timestamp": null,
@@ -351,6 +354,7 @@ Response Model `429`: [ExceptionResult](#ExceptionResult)
                 "name": "sephia"
             },
             "status": {
+                "current_subscription_name": "100x",
                 "expired_timestamp": null,
                 "remaining_counter": 100,
                 "grace_expired_timestamp": null,
@@ -390,6 +394,7 @@ Response Model: [FeatureStatusResult](#FeatureStatusResult)
 + Response 200 (application/json)
 
         {
+            "current_subscription_name": "100x",
             "expired_date": null,
             "remaining_counter": 50,
             "grace_expired_timestamp": null,
@@ -421,6 +426,7 @@ Response Model: Array of [ClaimFeatureResult](#ClaimFeatureResult)
                 "name": "sephia"
             },
             "status": {
+                "current_subscription_name": "100x",
                 "expired_timestamp": null,
                 "remaining_counter": 100,
                 "grace_expired_timestamp": null,
@@ -441,6 +447,7 @@ Response Model: Array of [ClaimFeatureResult](#ClaimFeatureResult)
                 "name": "mansur"
             },
             "status": {
+                "current_subscription_name": "1 month usage",
                 "expired_timestamp": 1409638190000,
                 "remaining_counter": null,
                 "grace_expired_timestamp": 1409638090000,
@@ -481,6 +488,7 @@ Response Model: [ClaimFeatureResult](#ClaimFeatureResult)
                 "name": "sephia"
             },
             "status": {
+                "current_subscription_name": "100x",
                 "expired_timestamp": null,
                 "remaining_counter": 100,
                 "grace_expired_timestamp": null,
@@ -580,6 +588,7 @@ Response Model: Array of [ClaimFeatureResult](#ClaimFeatureResult)
                 "name": "sephia"
             },
             "status": {
+                "current_subscription_name": "100x",
                 "expired_timestamp": null,
                 "remaining_counter": 100,
                 "grace_expired_timestamp": null,
@@ -600,6 +609,7 @@ Response Model: Array of [ClaimFeatureResult](#ClaimFeatureResult)
                 "name": "mansur"
             },
             "status": {
+                "current_subscription_name": "1 week usage",
                 "expired_timestamp": 1409638190000,
                 "remaining_counter": null,
                 "grace_expired_timestamp": null,
