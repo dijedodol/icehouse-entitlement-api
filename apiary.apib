@@ -725,3 +725,48 @@ Response Model: Array of [ClaimFeatureResult](#ClaimFeatureResult)
                     "name": "subscription"
                 }
             }
+            
+## Create new feature subscriptions [/v1/entitlement/cms/feature/{featureId}/feature_subscriptions]
+
+### Request to create feature subscriptions for one app features [POST]
+
++ Request (application/json)
+    + Header
+        
+            Authorization: Token token=ExampleApiKey
+            Access-Token: ExampleAccessToken
+            TimeZone: Asia/Jakarta
+
+    + Body
+        
+            {
+                "name" : "subscriptions 3 - 4 Month",
+                "uuid" : "a9fa5a64-3d91-11e4-a324-1231400035ef",
+                "duration_millis" : 10000000000,
+                "expired_reminder_before" : 120000000,
+                "duration_grace_millis" : 400,
+                "counter_grace_amount" : 123,
+                "counter_grace_amount" : 1222,
+                "counter_amount" : 100,
+                "enabled" : true
+            }
+        
++ Response 200 (application/json)
+
+        {
+            "name": "subscriptions 3 - 4 Month",
+            "id": 3,
+            "uuid": "a9fa5a64-3d91-11e4-a324-1231400035ef",
+            "duration_millis": 10000000000,
+            "counter_amount": 100,
+            "duration_grace_millis": 400,
+            "counter_grace_amount": 1222,
+            "expired_reminder_before": 120000000,
+            "counter_reminder": null,
+            "enabled": true,
+            "app_features": {
+                "uuid": "defghijij-454a-11e4-97ed-1231400035ef",
+                "type": "subscription3",
+                "name": "subscription3"
+            }
+        }
