@@ -695,12 +695,14 @@ Response Model: Array of [ClaimFeatureResult](#ClaimFeatureResult)
     + Body
         
             {
-                "expired_reminder_before" : null,
-                "counter_grace_amount" : 123,
                 "name" : "subscriptions 1",
                 "uuid" : "a9fa5a64-3d91-11e4-a324-1231400035ef",
-                "duration_grace_millis" : 2000000,
-                "counter_grace_amount" : 1222
+                "duration_millis" : 10000000000,
+                "expired_reminder_before" : 120000000,
+                "duration_grace_millis" : 400,
+                "counter_grace_amount" : 123,
+                "counter_grace_amount" : 1222,
+                "counter_amount" : 100
             }
             
             
@@ -710,11 +712,11 @@ Response Model: Array of [ClaimFeatureResult](#ClaimFeatureResult)
                 "name": "subscriptions 1",
                 "id": 1,
                 "uuid": "a9fa5a64-3d91-11e4-a324-1231400035ef",
-                "duration_millis": null,
-                "counter_amount": null,
-                "duration_grace_millis": null,
+                "duration_millis": 10000000000,
+                "counter_amount": 100,
+                "duration_grace_millis": 400,
                 "counter_grace_amount": 1222,
-                "expired_reminder_before": null,
+                "expired_reminder_before": 120000000,
                 "counter_reminder": null,
                 "enabled": false,
                 "app_features": {
