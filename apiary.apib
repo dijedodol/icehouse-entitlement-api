@@ -656,20 +656,69 @@ Response Model: Array of [ClaimFeatureResult](#ClaimFeatureResult)
     + Body
     
             {
-                "trial_duration": 500000,
-                "total_trial_unit" : 12
+                "name" : "Trial 1",
+                "duration_trial" : 100000000,
+                "counter_trial" : 250,
+                "on_demand" : true,
+                "expired_reminder" : 200000,
+                "counter_reminder" : 23,
+                "enabled" : true
             }
 + Response 200 (application/json)
 
             {
-                "duration_trial": 5000000,
-                "counter_trial": 12,
-                "expired_reminder": 3600000,
-                "counter_reminder": null,
-                "on_demand": false,
-                "enabled": false,
+                "name": "Trial 1",
+                "duration_trial": 100000000,
+                "counter_trial": 250,
+                "expired_reminder": 200000,
+                "counter_reminder": 23,
+                "on_demand": true,
+                "enabled": true,
                 "app_feature": {
-                    "uuid": "a9f27fd7-3d91-11e4-a324-1231400035ef",
+                    "uuid": "ad73188a-454a-11e4-97ed-1231400035ef",
+                    "type": "subscription",
+                    "name": "subscription"
+                }
+            }
+            
+## Change feature subscriptions info [/v1/entitlement/cms/feature_subscriptions/{featureSubscriptionsId}]
+
+### Request to update feature subscriptions info [PUT]
+
++ Request (application/json)
+    + Header
+    
+            Authorization: Token token=ExampleApiKey
+            Access-Token: ExampleAccessToken
+            TimeZone: Asia/Jakarta
+
+    + Body
+        
+            {
+                "expired_reminder_before" : null,
+                "counter_grace_amount" : 123,
+                "name" : "subscriptions 1",
+                "uuid" : "a9fa5a64-3d91-11e4-a324-1231400035ef",
+                "duration_grace_millis" : 2000000,
+                "counter_grace_amount" : 1222
+            }
+            
+            
++ Response 200 (application/json)
+
+            {
+                "name": "subscriptions 1",
+                "id": 1,
+                "uuid": "a9fa5a64-3d91-11e4-a324-1231400035ef",
+                "duration_millis": null,
+                "counter_amount": null,
+                "duration_grace_millis": null,
+                "counter_grace_amount": 1222,
+                "expired_reminder_before": null,
+                "counter_reminder": null,
+                "enabled": false,
+                "app_features": {
+                    "uuid": "ad73188a-454a-11e4-97ed-1231400035ef",
                     "type": "subscription",
                     "name": "subscription"
                 }
