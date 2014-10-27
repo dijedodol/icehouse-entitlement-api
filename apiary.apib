@@ -204,68 +204,94 @@ Response Model: Array of [AvailableFeatureResult](#AvailableFeatureResult)
 
 + Response 200 (application/json)
 
-        [{
-            "uuid": "1",
-            "type": "camera_filter",
-            "name": "sephia",
-            "subscriptions": [{
-                "uuid": "212",
-                "name": "30 days subscription",
-                "currency_prices": [{
-                    "code": "IDR",
-                    "name": "Indonesian Rupiah",
-                    "symbol": "Rp. ",
-                    "price": "5000"
-                },{
-                    "code": "USD",
-                    "name": "US Dollar",
-                    "symbol": "$",
-                    "price": "0.5"
-                }]
-            },{
-                "uuid": "213",
-                "name": "365 days subscription",
-                "currency_prices": [{
-                    "code": "IDR",
-                    "name": "Indonesian Rupiah",
-                    "symbol": "Rp. ",
-                    "price": "50000"
-                },{
-                    "code": "USD",
-                    "name": "US Dollar",
-                    "symbol": "$",
-                    "price": "5"
-                }]
-            }]
-        },{
-            "uuid": "2",
-            "type": "voice",
-            "name": "mansur",
-            "subscriptions": [{
-                "uuid": "496",
-                "name": "100 days subscription",
-                "currency_prices": [{
-                    "code": "IDR",
-                    "name": "Indonesian Rupiah",
-                    "symbol": "Rp. ",
-                    "price": "2500"
-                }]
-            }]
-        },{
-            "uuid": "3",
-            "type": "subscription",
-            "name": "subscription",
-            "subscriptions": [{
-                "uuid": "13",
-                "name": "1000x photo",
-                "currency_prices": [{
-                    "code": "IDR",
-                    "name": "Indonesian Rupiah",
-                    "symbol": "Rp. ",
-                    "price": "2500"
-                }]
-            }]
-        }]
+        [
+            {
+                "uuid": "1",
+                "type": "camera_filter",
+                "name": "sephia",
+                "static_file": {
+                    "url": "http://www.google.com/test.png",
+                    "sha1_hash": "589034583oiu",
+                    "url_expired_time": null
+                },
+                "subscriptions": [
+                    {
+                        "uuid": "212",
+                        "name": "30 days subscription",
+                        "currency_prices": [
+                            {
+                                "code": "IDR",
+                                "name": "Indonesian Rupiah",
+                                "symbol": "Rp. ",
+                                "price": "5000"
+                            },
+                            {
+                                "code": "USD",
+                                "name": "US Dollar",
+                                "symbol": "$",
+                                "price": "0.5"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "213",
+                        "name": "365 days subscription",
+                        "currency_prices": [
+                            {
+                                "code": "IDR",
+                                "name": "Indonesian Rupiah",
+                                "symbol": "Rp. ",
+                                "price": "50000"
+                            },
+                            {
+                                "code": "USD",
+                                "name": "US Dollar",
+                                "symbol": "$",
+                                "price": "5"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "uuid": "2",
+                "type": "voice",
+                "name": "mansur",
+                "subscriptions": [
+                    {
+                        "uuid": "496",
+                        "name": "100 days subscription",
+                        "currency_prices": [
+                            {
+                                "code": "IDR",
+                                "name": "Indonesian Rupiah",
+                                "symbol": "Rp. ",
+                                "price": "2500"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "uuid": "3",
+                "type": "subscription",
+                "name": "subscription",
+                "subscriptions": [
+                    {
+                        "uuid": "13",
+                        "name": "1000x photo",
+                        "currency_prices": [
+                            {
+                                "code": "IDR",
+                                "name": "Indonesian Rupiah",
+                                "symbol": "Rp. ",
+                                "price": "2500"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
 
 # Group Eligible App Features
 App Features is a feature which can be enabled or disabled by the Server and the client application must obey the server prior to disabling or enabling a feature.
