@@ -665,6 +665,35 @@ Response Model: Array of [ClaimFeatureResult](#ClaimFeatureResult)
 
 + Response 402
 
+## Feature Purchase History [/v1/entitlement/purchase/history]
+
+### Request a purchase history [GET]
+Request Model: [ConfirmPurchaseRequestParam](#ConfirmPurchaseRequestParam)  
+Response Model: Array of [ClaimFeatureResult](#ClaimFeatureResult)
+
++ Request (application/json)
+
+    + Header
+    
+            Authorization: Token token=ExampleApiKey
+            Access-Token: ExampleAccessToken
+            TimeZone: Asia/Jakarta
+
++ Response 200 (application/json)
+
+        [{
+            "feature_uuid": "1",
+            "type": "camera_filter",
+            "name": "sephia"
+            "created_at" : "1415264768"
+        },{
+            "feature_uuid": "1",
+            "type": "subscription",
+            "name": "subscription 1 month"
+            "created_at" : "1415264768"
+        }]
+
+
 #Group Entitlement CMS
 
 ## Change trial period and unit [/v1/entitlement/cms/feature_trial/{feature_id}]
