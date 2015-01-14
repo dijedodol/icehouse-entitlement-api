@@ -218,6 +218,7 @@ Response Model: Array of [AvailableFeatureResult](#AvailableFeatureResult)
                     {
                         "uuid": "212",
                         "name": "30 days subscription",
+                        "auto_renewal" : true,
                         "currency_prices": [
                             {
                                 "code": "IDR",
@@ -236,6 +237,7 @@ Response Model: Array of [AvailableFeatureResult](#AvailableFeatureResult)
                     {
                         "uuid": "213",
                         "name": "365 days subscription",
+                        "auto_renewal" : false,
                         "currency_prices": [
                             {
                                 "code": "IDR",
@@ -261,6 +263,7 @@ Response Model: Array of [AvailableFeatureResult](#AvailableFeatureResult)
                     {
                         "uuid": "496",
                         "name": "100 days subscription",
+                        "auto_renewal" : true,
                         "currency_prices": [
                             {
                                 "code": "IDR",
@@ -280,6 +283,7 @@ Response Model: Array of [AvailableFeatureResult](#AvailableFeatureResult)
                     {
                         "uuid": "13",
                         "name": "1000x photo",
+                        "auto_renewal" : false,
                         "currency_prices": [
                             {
                                 "code": "IDR",
@@ -521,7 +525,8 @@ Response Model: [ClaimFeatureResult](#ClaimFeatureResult)
                 "grace_remaining_counter": null,
                 "expired_reminder_at": null,
                 "counter_reminder_at": 15,
-                "trial": true
+                "trial": true,
+                "auto_renewal" : false
             },
             "content_static_file": {
                 "url": "http://birdgei.files.wordpress.com/2012/02/100.gif",
@@ -621,7 +626,8 @@ Response Model: Array of [ClaimFeatureResult](#ClaimFeatureResult)
                 "grace_remaining_counter": null,
                 "expired_reminder_at": null,
                 "counter_reminder_at": 15,
-                "trial": false
+                "trial": false,
+                "auto_renewal" : false
             },
             "content_static_file": {
                 "url": "http://birdgei.files.wordpress.com/2012/02/100.gif",
@@ -642,7 +648,8 @@ Response Model: Array of [ClaimFeatureResult](#ClaimFeatureResult)
                 "grace_remaining_counter": null,
                 "expired_reminder_at": 1409638090000,
                 "counter_reminder_at": null,
-                "trial": false
+                "trial": false,
+                "auto_renewal" : true
             },
             "content_static_file": {
                 "url": "http://birdgei.files.wordpress.com/2012/02/100.gif",
