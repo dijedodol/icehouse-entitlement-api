@@ -393,7 +393,8 @@ Response Model `429`: [ExceptionResult](#ExceptionResult)
                 "grace_remaining_counter": null,
                 "expired_reminder_at": null,
                 "counter_reminder_at": 15,
-                "trial": true
+                "trial": true,
+                "auto_renewal" : false
             }
         }
 
@@ -433,7 +434,8 @@ Response Model: [FeatureStatusResult](#FeatureStatusResult)
             "grace_remaining_counter": null,
             "expired_reminder_at": null,
             "counter_reminder_at": 15,
-            "trial": true
+            "trial": true,
+            "auto_renewal" : false
         }
 
 ## App Features Content File Claim [/v1/entitlement/feature/claim]
@@ -465,7 +467,8 @@ Response Model: Array of [ClaimFeatureResult](#ClaimFeatureResult)
                 "grace_remaining_counter": null,
                 "expired_reminder_at": null,
                 "counter_reminder_at": 15,
-                "trial": true
+                "trial": true,
+                "auto_renewal" : false
             },
             "content_static_file": {
                 "url": "http://birdgei.files.wordpress.com/2012/02/100.gif",
@@ -486,7 +489,8 @@ Response Model: Array of [ClaimFeatureResult](#ClaimFeatureResult)
                 "grace_remaining_counter": null,
                 "expired_reminder_at": null,
                 "counter_reminder_at": null,
-                "trial": true
+                "trial": true,
+                "auto_renewal" : true
             },
             "content_static_file": {
                 "url": "http://birdgei.files.wordpress.com/2012/02/100.gif",
