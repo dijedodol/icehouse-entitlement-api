@@ -437,6 +437,48 @@ Response Model: [FeatureStatusResult](#FeatureStatusResult)
             "trial": true,
             "auto_renewal" : false
         }
+        
+## Auto Renewal Subscribtion [/v1/entitlement/feature/eligible/{uuid}/auto_renewal]
+
+### Unsubscribe From Auto Renewal [PUT]
+
++ Request
+
+    + Header
+        
+            Authorization: Token token=ExampleApiKey
+            Access-Token: ExampleAccessToken
+            TimeZone: Asia/Jakarta
+            
+    + Body
+    
+            {
+                
+            }
+
++ Response 200 (application/json)
+            
+            
+            {
+                "feature": {
+                    "uuid": "1",
+                    "type": "camera_filter",
+                    "name": "sephia"
+                },
+                "status":  {
+                    "current_subscription_name": "100x",
+                    "expired_timestamp": null,
+                    "remaining_counter": 100,
+                    "grace_expired_timestamp": null,
+                    "grace_remaining_counter": null,
+                    "expired_reminder_at": null,
+                    "counter_reminder_at": 15,
+                    "trial": false,
+                    "auto_renewal" : false
+                }
+            }
+    
+    
 
 ## App Features Content File Claim [/v1/entitlement/feature/claim]
 
