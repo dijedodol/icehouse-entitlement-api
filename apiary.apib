@@ -440,6 +440,51 @@ Response Model: [FeatureStatusResult](#FeatureStatusResult)
         
 ## Auto Renewal Subscribtion [/v1/entitlement/feature/eligible/{uuid}/auto_renewal]
 
+### Auto Renewal Charing [POST]
+
++ Request
+    + Header
+    
+            Authorization: Token token=ExampleApiKey
+            Access-Token: ExampleAccessToken
+            TimeZone: Asia/Jakarta
+
+    + Body
+        
+            {
+                "feature_subscription_uuid" : "ad7c8b77-454a-11e4-97ed-1231400035ef",
+                "provider_uuid": "smartfrenUuid",
+                "provider_inputs": {
+                    "imsi": "123456789"
+                },
+                "currency_code": "IDR"
+            }
+            
++ Response 200 (application/json)
+            
+            [
+                {
+                    "status": {
+                        "current_subscription_name": "subscription",
+                        "expired_timestamp": 1421313441045,
+                        "remaining_counter": null,
+                        "grace_expired_timestamp": 1421313741045,
+                        "grace_remaining_counter": null,
+                        "expired_reminder_at": 1421313141045,
+                        "counter_reminder_at": null,
+                        "trial": false,
+                        "auto_renewal": true
+                    },
+                    "feature": {
+                        "uuid": "ad73188a-454a-11e4-97ed-1231400035ef",
+                        "type": "subscription",
+                        "name": "subscription"
+                    },
+                    "content_static_file": null
+                }
+            ]
+            
+
 ### Unsubscribe From Auto Renewal [PUT]
 
 + Request
