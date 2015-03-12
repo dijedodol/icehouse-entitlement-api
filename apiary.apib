@@ -316,7 +316,9 @@ Response Model `429`: [ExceptionResult](#ExceptionResult)
 
 + Response 200 (application/json)
 
-        [{
+        {
+            current_time : 140000000,
+            eligible_features : [{
             "feature": {
                 "uuid": "1",
                 "type": "camera_filter",
@@ -351,6 +353,8 @@ Response Model `429`: [ExceptionResult](#ExceptionResult)
                 "auto_renewal" : true
             }
         }]
+        }
+        
 
 + Response 429
 
